@@ -15,13 +15,13 @@ RUN groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s
 WORKDIR /opt/jboss
 
 # Install necessary packages
-RUN curl -L -O -H "Cookie: oraclelicense=accept-securebackup-cookie" -k "https://edelivery.oracle.com/otn-pub/java/jdk/8u111-b14/jdk-8u111-linux-x64.rpm" && yum localinstall -y *.rpm && rm -f *.rpm
+RUN curl -L -O -H "Cookie: oraclelicense=accept-securebackup-cookie" -k "http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.rpm" && yum localinstall -y *.rpm && rm -f *.rpm
 
 # Switch back to jboss user
 USER jboss
 
 # Set the JAVA_HOME variable to make it clear where Java is located
-ENV JAVA_HOME /usr/java/jdk1.8.0_111
+ENV JAVA_HOME /usr/java/jdk1.8.0_121
 
 ENV WILDFLY_VERSION 10.1.0.Final
 ENV WILDFLY_SHA1 9ee3c0255e2e6007d502223916cefad2a1a5e333
