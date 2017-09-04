@@ -14,8 +14,15 @@ RUN groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s
 # Set the working directory to jboss' user home directory
 WORKDIR /opt/jboss
 
-# Install necessary packages
-RUN curl -L -O -H "Cookie: oraclelicense=accept-securebackup-cookie" -k "http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.rpm" && yum localinstall -y *.rpm && rm -f *.rpm 
+# Install Oracle JDK
+ENV JDK_SHA256 cdb016da0c509d7414ee3f0c15b2dae5092d9a77edf7915be4386d5127e8092f
+ENV JDK_VERSION 8u144
+ENV JDK_DIR 8u144-b01/090f390dda5b47b9b721c7dfaa008135
+
+RUN curl -L -O -H "Cookie: oraclelicense=accept-securebackup-cookie" -k "http://download.oracle.com/otn-pub/java/jdk/${JDK_DIR}/jdk-${JDK_VERSION}-linux-x64.rpm" \
+    && sha256sum jdk-${JDK_VERSION}-linux-x64.rpm | grep ${JDK_SHA256} \
+    && yum localinstall -y jdk-${JDK_VERSION}-linux-x64.rpm \ 
+    && rm jdk-${JDK_VERSION}-linux-x64.rpm 
 
 # Switch back to jboss user
 USER jboss
